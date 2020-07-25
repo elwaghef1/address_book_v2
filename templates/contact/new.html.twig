@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}
+    Add contact
+{% endblock %}
+
+{% block body %}
+    <h1 class="mt-3">Add a new cnotact</h1>
+    <a class="btn btn-info mb-5 mt-5"  href="{{ path('contact_index') }}">Home page</a>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input class="btn btn-success btn-lg btn-block mb-5 mt-5" type="submit" value="Add" />
+    {{ form_end(form) }}
+      
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+        $('.js-datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+</script>
+{% endblock %}

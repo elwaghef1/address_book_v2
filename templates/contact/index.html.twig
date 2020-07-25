@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="jumbotron text-center">
+        <h1>My address book</h1>
+        <p>Here is the list of contacts</p>
+    </div>
+
+    <a class="btn btn-primary mb-5" href="{{ path('contact_new') }}">Add contact <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Street & Number</th>
+                <th scope="col">Zip</th>
+                <th scope="col">City</th>
+                <th scope="col">Country</th>
+                <th scope="col">Phone number</th>
+                <th scope="col">Birthday</th>
+                <th scope="col">Images</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td>{{ contact.firstName }}</td>
+                <td>{{ contact.lastName }}</td>
+                <td>{{ contact.email }}</td>
+                <td>{{ contact.streetNumber }}</td>
+                <td>{{ contact.zip }}</td>
+                <td>{{ contact.city }}</td>
+                <td>{{ contact.country | country_name}}</td>
+                <td>{{ contact.phoneNumber }}</td>
+                <td>{% if contact.birthday %}{{ contact.birthday|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    {% if contact.imageName %} 
+                        <img class="mt-3"src="{{ vich_uploader_asset(contact, 'imageFile')}}" width="40" height="auto" alt="" style="border-radius: 3px;">
+                    {% else %}
+                        <img class="mt-3"src="{{ asset('images/empty/empty.png')}}" width="40" height="auto" alt="" style="border-radius: 3px;">
+                    {% endif %}
+                <td >
+                    <a class="btn btn-primary" href="{{ path('contact_show', { 'id': contact.id, slug: contact.slug }) }}"><i class="fas fa-eye"></i></a>
+                    <a class="btn btn-success" href="{{ path('contact_edit', { 'id': contact.id, slug: contact.slug }) }}"><i class="fas fa-edit"></i></a>
+                    <form method="POST" action="{{ path('contact_delete', { 'id': contact.id, slug: contact.slug } )}}" style="display: inline-block;" onsubmit="return confirm('Are you sure?')">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id ) }}">
+                        <button class="btn btn-danger"> <i class="fas fa-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(contacts) }}
+    </div>
+  
+{% endblock %}

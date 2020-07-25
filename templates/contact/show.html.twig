@@ -1,0 +1,59 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+  <div class="jumbotron mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+            {% if contact.imageName %} 
+                <img class="mt-3"src="{{ vich_uploader_asset(contact, 'imageFile')}}" width="40" height="auto" alt="" style="border-radius: 3px;">
+            {% else %}
+                <img class="mt-3"src="{{ asset('images/empty/empty.png')}}" width="40" height="auto" alt="" style="border-radius: 3px;">
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+          <h1>{{ contact.firstName }} {{ contact.lastName }}</h1>
+          <h2>{{ contact.streetNumber }} - {{ contact.zip }}  {{ contact.city }} </h2>
+          <div class="text-primary" style="font-size: 4rem;font-weight: bold;">{{ contact.country | country_name}} </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Contact informations</h2>
+        <table class="table table-striped">
+            <tr>
+                <td>Email</td>
+                <td>{{ contact.email }}</td>
+            </tr>
+          <tr>
+            <td>Phone number</td>
+            <td>{{ contact.phoneNumber }} </td>
+          </tr>
+          <tr>
+            <td>Birth date</td>
+            <td>{% if contact.birthday %}{{ contact.birthday|date('Y-m-d') }}{% endif %}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5 mb-5">
+    <a class="btn btn-primary" href="{{ path('contact_index') }}">Home page</a>
+    <a class="btn btn-success" href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
+    <form method="POST" action="{{ path('contact_delete', { 'id': contact.id } )}}"
+      style="display: inline-block;" onsubmit="return confirm('Are you sure?')">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id ) }}">
+      <button class="btn btn-danger">Delete</button>
+    </form>
+  </div>
+
+{% endblock %}
+
