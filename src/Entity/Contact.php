@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ContactRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
@@ -23,41 +23,54 @@ class Contact
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $zip;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Country
      */
     private $country;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      min = 6,
+     *      minMessage = "This is too short for a phone number",
+     * )
      */
     private $phoneNumber;
 
@@ -85,7 +98,7 @@ class Contact
     /**
      * @ORM\Column(type="datetime", nullable=true)
      *
-     * @var \DateTimeInterface|null
+     * @var \DateTime|null
      */
     private $updatedAt;
 
@@ -116,11 +129,6 @@ class Contact
         $this->lastName = $lastName;
 
         return $this;
-    }
-
-    public function getSlug()
-    {
-        return (new Slugify())->slugify($this->lastName);
     }
 
     public function getStreetNumber(): ?string
@@ -195,12 +203,12 @@ class Contact
         return $this;
     }
 
-    public function getBirthday(): ?\DateTimeInterface
+    public function getBirthday(): ?\DateTime
     {
         return $this->birthday;
     }
 
-    public function setBirthday(\DateTimeInterface $birthday): self
+    public function setBirthday(\DateTime $birthday): self
     {
         $this->birthday = $birthday;
 

@@ -1,0 +1,10 @@
+App\Entity\Contact:
+    contact{1..20}:
+        firstName: <firstName()>
+        lastName: <lastName()>
+        email: <email()>
+        streetNumber: <streetName()> <buildingNumber()>
+        zip: <postcode()>
+        city: <city()>
+        country: <country()>
+        phoneNumber: <phoneNumber()>

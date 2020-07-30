@@ -44,9 +44,9 @@
                         <img class="mt-3"src="{{ asset('images/empty/empty.png')}}" width="40" height="auto" alt="" style="border-radius: 3px;">
                     {% endif %}
                 <td >
-                    <a class="btn btn-primary" href="{{ path('contact_show', { 'id': contact.id, slug: contact.slug }) }}"><i class="fas fa-eye"></i></a>
-                    <a class="btn btn-success" href="{{ path('contact_edit', { 'id': contact.id, slug: contact.slug }) }}"><i class="fas fa-edit"></i></a>
-                    <form method="POST" action="{{ path('contact_delete', { 'id': contact.id, slug: contact.slug } )}}" style="display: inline-block;" onsubmit="return confirm('Are you sure?')">
+                    <a class="btn btn-primary" href="{{ path('contact_show', { 'id': contact.id }) }}"><i class="fas fa-eye"></i></a>
+                    <a class="btn btn-success" href="{{ path('contact_edit', { 'id': contact.id }) }}"><i class="fas fa-edit"></i></a>
+                    <form method="POST" action="{{ path('contact_delete', { 'id': contact.id } )}}" style="display: inline-block;" id="delete-form" onsubmit="return confirm('Are you sure?')">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id ) }}">
                         <button class="btn btn-danger"> <i class="fas fa-trash"></i></button>
