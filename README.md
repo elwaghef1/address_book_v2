@@ -10,3 +10,12 @@ To run the app after cloning the project:
 - run php bin/console doctrine:migrations:migrate to create tables in the database
 - run doctrine:fixtures:load to add dummy data to the database
 - run symfony serve to launch the server
+
+
+++++++++++ TESTS ++++++++
+
+- create contact_test.sqlite in the directory var
+- run php bin/console doctrine:database:create --env=test to create the test database
+- run doctrine:fixtures:load --env=test to add dummy data to the test database
+- run php bin/phpunit to launch the test (The first time may generate errors, run it a second time)
+
